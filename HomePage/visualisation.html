@@ -62,7 +62,7 @@
         <!-- Main Content-->
         <main class="mb-4">
             <div class="container px-4 px-lg-5">
-                <h1> The Economic affect on Life Expectancy </h1>
+                <h1> The Economic Effects on Life Expectancy. </h1>
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7"> 
                         
@@ -70,30 +70,31 @@
                 </div>
             </div>
         </main>
-                        
-                            <div class="charts">
-                            <script>
-                                // Call the choropleth function after the page is loaded
-                                window.onload = function() {
-                                    choropleth(); // Assuming choropleth() is defined in choropleth.js
-                                    scatter_plot();
-                                    // density();
-                                };
-                            </script>
+    
+        <div class="charts">
+        <script>
+            // Call the choropleth function after the page is loaded
+            window.onload = function() {
+                choropleth(); 
+                scatter_plot();
+                // density();
+                //radar();
+            };
+        </script>
 
-                            <div id = "choropleth"></div>    <!-- Choropleth-->
-                            <div id = "right-container">    <!-- Right screen container-->
-                                <button id="chart-btn" onclick="scatter_plot()">Scatter Plot</button>
-                                <button id ="chart-btn" onclick="density()">Distribution</button>
-                                
-                            </div>  <!--ID: Right container-->
+        <div id = "choropleth"></div>    <!-- Choropleth-->
+        <div id = "right-container">    <!-- Right screen container-->
+            <button id="chart-btn" onclick="scatter_plot()">Scatter Plot</button>
+            <button id ="chart-btn" onclick="density()">Distribution</button>
+            
+        </div>  <!--ID: Right container-->
 
-                            </div>
+        </div>
 
-                            <div class = "slider">
-                                <span id='out'></span><br>
-                                <input id="yearSlider" type="range" class="test" min="0" max="2021" value = "9999" />
-                            </div>
+        <div class = "slider">
+            <span id='out'></span><br>
+            <input id="yearSlider" type="range" class="test" min="0" max="2021" value = "9999" />
+        </div>
 
                     
  <!-- Footer-->
@@ -103,7 +104,7 @@
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
-                        <a href="https://github.com/ToanNguyenSwinAdventure/COS30045-DataVisualisation">
+                        <a href="https://toannguyenswinadventure.github.io/COS30045-DataVisualisation/HomePage/index.html">
                             <span class="fa-stack fa-lg">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fab fa-github fa-stack-1x fa-inverse"></i>
