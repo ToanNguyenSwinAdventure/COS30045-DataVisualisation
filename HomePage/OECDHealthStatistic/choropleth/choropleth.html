@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "utf-8" />
+    <meta name = "description"  content = "Data Visualisation"/>
+    <meta name = "keywords"     content = "HTML,CSS,D3" />
+    <meta name = "author"       content = "Toan Nguyen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Choropleth</title>
+
+    <script src = "https://d3js.org/d3.v7.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     <!--Add JQuery Library to allow modify slider -->
+    <script src="../scripts/header.js"></script>
+    <script src="../scripts/footer.js"></script>
+    <script src = "scripts.js" ></script>
+    <script src="choropleth.js"></script>
+    <script src="../radar_chart/radar_chart.js"></script>
+    <script src="../scatter_plot/scatter_plot.js"></script>
+    <!-- <script src="../density_plot/density.js"></script> -->
+    <script src="../density_plot/density4.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+    crossorigin="anonymous">
+    
+</head>
+
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">OECD</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="choropleth.html">Choropleth</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../scatter_plot/scatter_plot.html">Scatter Plot</a>
+                  </li>
+    
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </div>
+
+
+    
+ 
+  <div id="header-placeholder"></div>
+  <h1> The Economic affect on Life Expectancy </h1>
+    <div class="charts">
+      <script>
+        // Call the choropleth function after the page is loaded
+        window.onload = function() {
+            choropleth(); // Assuming choropleth() is defined in choropleth.js
+            scatter_plot();
+            // density();
+        };
+      </script>
+        <div id = "choropleth"></div>    <!-- Choropleth-->
+
+        <div id = "right-container">    <!-- Right screen container-->
+          <button id="chart-btn" onclick="scatter_plot()">Scatter Plot</button>
+          <button id ="chart-btn" onclick="density()">Distribution</button>
+
+          <!-- <div id="plot"> -->
+            <!-- <div id = "plot-option"> -->
+              <!-- <label>X Axis Option</label>
+              <select name="xAxis_option" id="xAxis_option">
+                <option value="gdp_capita">GDP per Capita</option>
+                <option value="lifeExpectancy">Life Expectancy</option>
+                <option value="gdp">GDP</option>
+                <option value="health_expenditure">Health Expenditure</option>
+                <option value="health_expenditure_gdp_share">Health Expenditure share of GDP</option>
+                <option value="health_expenditure_capita">Health Expenditure per Capita</option>
+              </select>
+              
+              <label>&nbsp&nbsp&nbsp&nbsp&nbsp Y Axis Option </label>
+              <select name="yAxis_option" id="yAxis_option">
+                <option value="lifeExpectancy">Life Expectancy</option>
+                <option value="gdp_capita">GDP per Capita</option>
+                <option value="gdp">GDP</option>
+                <option value="health_expenditure">Health Expenditure</option>
+                <option value="health_expenditure_gdp_share">Health Expenditure share of GDP</option>
+                <option value="health_expenditure_capita">Health Expenditure per Capita</option>
+                NOT REPORT DATA for the country have null value
+              </select> -->
+            <!-- </div> -->
+          <!-- </div> -->
+
+              <!-- <div id="density" > -->
+                <!-- <div id="density-option">
+                  <label for="dataType">Select Data Type: </label>
+                  <select id="dataType">
+                    <option value="Value">Life Expectancy</option>
+                    <option value="GDP">GDP</option>
+                    <option value="GDP_Capita">GDP per Capita</option>
+                  </select>
+                  <h3>Life Expectancy Density For <span id="country"></span> in <span id="leYear">2021</span></h3>
+                </div>
+              </div> -->
+            <!-- </div> -->
+          <!-- </div> -->
+
+
+
+        </div>  <!--ID: Right container-->
+
+
+          
+
+      </div>
+
+    <div class = "slider">
+      <span id='out'></span><br>
+      <input id="yearSlider" type="range" class="test" min="0" max="2021" value = "9999" />
+    </div>
+    
+    <br>
+    <bf>
+      <!-- <div id="footer-placeholder"></div> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,171 @@
+.line {
+    fill: none;
+    stroke: slategray;
+    stroke-width: 0.5;
+}
+
+
+
+.charts{
+    position: relative; 
+    align-items: center;
+    gap: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+#right-container {
+    width: 50%; /* Adjust the width as needed */
+    /* height: 10px; */
+    float: left; /* Float the element to the left */
+}
+
+
+#right-container{
+    width: 50 wh;
+    height: 50 vh;
+
+}
+#choropleth,
+#plot, 
+#density {
+    border: 1px solid #ccc;
+    margin-bottom: 20px; /* Add some margin between the charts */
+    padding: 10px; /* Add some padding inside the border */
+}
+#plot #plot-container #strokes-container {
+    border: 1px solid #ccc;
+}
+#radar-chart{
+    width: 50%;
+    height: 50%;
+    /* max-width: 200px;
+    max-height: auto; */
+}
+
+.footer{
+    text-align: center;
+    color:red;
+    background-color: aquamarine;
+}
+#footer-placeholder {
+    position: fixed;
+}
+
+        /* .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid black;
+            padding: 5px;
+        } */
+
+        .chart-tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            padding: 2px;
+            font: 12px sans-serif;
+            opacity: 1;
+            background: white;
+            border: 1px solid black;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        /* Style the circles */
+        circle {
+            fill: steelblue;
+            opacity: 0.7;
+        }
+
+                /* Style the country labels */
+                .country-label {
+                    font-size: 10px;
+                    text-anchor: middle;
+                    fill: black;
+                }
+
+
+                .slider {
+                    width: 40%;
+                    margin: 20px auto;
+                }
+                
+                #yearSlider {
+                    -webkit-appearance: none;
+                    width: 100%;
+                    height: 8px;
+                    border-radius: 5px;
+                    background: #d3d3d3;
+                    outline: none;
+                    opacity: 0.7;
+                    -webkit-transition: .2s;
+                    transition: opacity .2s;
+                }
+                
+                #yearSlider:hover {
+                    opacity: 1;
+                }
+                
+                #yearSlider::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    background: #2d2ddc;
+                    cursor: pointer;
+                }
+                
+                #yearSlider::-moz-range-thumb {
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    background: #4CAF50;
+                    cursor: pointer;
+                }
+
+                #chart-btn:link,
+                #chart-btn:visited {
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    color: rgb(27, 27, 27);
+                    padding: 10px 30px;
+                    border: 1px solid;
+                    border-radius: 1000px;
+                    display: inline-block;
+                    transition: all .2s;
+                    position: relative;
+                }
+                
+                #chart-btn:hover {
+                 transform: translateY(-5px);
+                 box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
+                }
+                
+                #chart-btn:active {
+                 transform: translateY(-3px);
+                }
+                
+                #chart-btn::after {
+                 content: "";
+                 display: inline-block;
+                 height: 100%;
+                 width: 100%;
+                 border-radius: 100px;
+                 top: 0;
+                 left: 0;
+                 position: absolute;
+                 z-index: -1;
+                 transition: all .3s;
+                }
+                
+                /* #chart-btn:hover::after {
+                 background-color: rgb(0, 238, 255);
+                 transform: scaleX(1.4) scaleY(1.5);
+                 opacity: 0;
+                } */
+        
