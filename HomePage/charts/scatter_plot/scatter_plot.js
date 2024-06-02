@@ -10,13 +10,14 @@ function scatter_plot(){
         // w: 600,
         // h: 300,
         // padding: 70,
-        w: 600,
-        h: 300,
-        padding: 70,
-        radius: 4,
-        border: 1
+        w: window.innerWidth*0.4,
+        h: window.innerWidth*0.2,
+        padding: window.innerWidth*0.04,
+        radius: window.innerWidth*0.4*0.0066666,
+        border: 1,
+        fontSize: window.innerWidth*0.4/600 //rem
     };
-
+    console.log(`Width: ${cfg.w}; Height: ${cfg.h}`);
     var continentColor = d3.scaleOrdinal()
     .domain(["Asia", "Europe", "Americas", "Africa", "Oceania"])
     .range(d3.schemeSet1);
@@ -185,7 +186,7 @@ function scatter_plot(){
                 .attr("y", cfg.padding / 2)
                 .attr("id", "chart-year")
                 .style("text-anchor", "middle")
-                .style("font-size", "20px") // Set the font size here
+                .style("font-size", `${cfg.fontSize} px`) // Set the font size here
                 .text(title_name(xAxis_option,yAxis_option,chart_year));
     }
 
@@ -365,7 +366,7 @@ function scatter_plot(){
             var xAxis = d3.axisBottom(xScale).ticks(7);
             var yAxis = d3.axisLeft(yScale).ticks(7);
 
-            svg = d3.select('#plot-container')
+            svg = container //d3.select('#plot-container')
                 .append("svg")
                 .attr('id', 'plot-svg')
                 .attr("width", cfg.w)
@@ -410,6 +411,7 @@ function scatter_plot(){
                 .attr("x", cfg.w / 2)
                 .attr("y", cfg.h - 10)
                 .style("text-anchor", "middle")
+                .style("font-size", `${1.1*cfg.fontSize}rem`)
                 .text(axis_name(xAxis_option));
     
             svg.append("text")
@@ -417,6 +419,7 @@ function scatter_plot(){
                 .attr("x", -cfg.h / 2)
                 .attr("y", cfg.padding - 30)
                 .style("text-anchor", "middle")
+                .style("font-size", `${1.1*cfg.fontSize}rem`)
                 .text(axis_name(yAxis_option));
     
             const zoom = d3.zoom()
@@ -424,7 +427,7 @@ function scatter_plot(){
                 .on("zoom", zoomed);
     
             container.call(zoom);
-    
+
             function zoomed(event) {
                 const transform = event.transform;
                 const newXScale = transform.rescaleX(xScale);
@@ -445,7 +448,7 @@ function scatter_plot(){
                 .attr("y", cfg.padding / 2)
                 .attr("id", "chart-year")
                 .style("text-anchor", "middle")
-                .style("font-size", "20px") // Set the font size here
+                .style("font-size", `${1.2*cfg.fontSize}rem`) // Set the font size here
                 .text(title_name(xAxis_option,yAxis_option,chart_year));
     
             var highlight = function(event,d){
@@ -468,7 +471,7 @@ function scatter_plot(){
             .enter()
             .append("circle")
                 .attr("cx", cfg.w)
-                .attr("cy", function(d){ return cfg.h -100  - population_scale(d) } )
+                .attr("cy", function(d){ return cfg.h *2/3  - population_scale(d) } )
                 .attr("r", function(d){ return population_scale(d) })
                 .style("fill", "none")
                 .attr("stroke", "black");
@@ -479,9 +482,9 @@ function scatter_plot(){
             .enter()
             .append("line")
                 .attr('x1', function(d){ return cfg.w  + population_scale(d) } )
-                .attr('x2', function(d,i) { return cfg.w + cfg.padding-20 + 10*i})
-                .attr('y1', function(d){ return cfg.h - 100  - population_scale(d) } )
-                .attr('y2', function(d){ return cfg.h - 100  - population_scale(d) } )
+                .attr('x2', function(d,i) { return cfg.w + cfg.padding*0.7 + cfg.padding*0.3*i})
+                .attr('y1', function(d){ return cfg.h *2/3  - population_scale(d) } )
+                .attr('y2', function(d){ return cfg.h *2/3 - population_scale(d) } )
                 .attr('stroke', 'black')
                 .style('stroke-dasharray', ('2,2'));
     
@@ -491,20 +494,21 @@ function scatter_plot(){
                 .data(valuesToShow)
                 .enter()
                 .append("text")
-                .attr('x', function(d, i){return cfg.w+cfg.padding-20+10*i} )
-                .attr('y', function(d){ return cfg.h - 100 - population_scale(d)} )
+                .attr('x', function(d, i){return cfg.w + cfg.padding*0.7 + cfg.padding*0.3*i} )
+                .attr('y', function(d){ return cfg.h*2/3- population_scale(d)} )
                 .text( function(d){ return d/1000000 } )
-                .style("font-size", 10)
+                .style("font-size", `${cfg.fontSize}rem`)
                 .attr('alignment-baseline', 'middle');
     
               // Legend title
             container.append("text")
                 .attr('x', cfg.w+cfg.padding/2)
-                .attr("y", cfg.h - 100 +30)
+                .attr("y", cfg.h * 0.75)
+                .style("font-size", `${cfg.fontSize}rem`)
                 .text("Population (Millions)")
                 .attr("text-anchor", "middle");
     
-            var size = 20;
+            var size = cfg.radius*5;
     
             var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
                 container.selectAll("myrect")
@@ -525,6 +529,7 @@ function scatter_plot(){
                       .attr("x", cfg.w + size*0.8)
                       .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
                       .style("fill", function(d){ return continentColor(d)})
+                      .style("font-size", `${cfg.fontSize}rem`)
                       .text(function(d){ return d})
                       .attr("text-anchor", "left")
                       .style("alignment-baseline", "middle")

@@ -5,11 +5,13 @@ function choropleth(){
         // w: 700,
         // h: 500,
         // padding: 50
-        w: window.innerWidth/2.3,
-        h: window.innerHeight/1.4,
-        padding: window.innerHeight/10
+        w: window.innerWidth*0.43,
+        // h: window.innerHeight/1.4,
+        h: (window.innerWidth*0.43)*0.7,
+        padding: window.innerWidth/13,
+        fontSize: window.innerWidth*0.43/700
     };
-    
+    // console.log(`Width: ${cfg.w}; Height: ${cfg.h}`);
     var color = d3.scaleQuantize()
                 .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'])
     var color_legend = d3.scaleQuantize()
@@ -19,31 +21,44 @@ function choropleth(){
                 .center([0,55])
                 // .center([0,cfg.padding-20])
                 // .scale(cfg.w/10)
-                .scale(70)
+                // .scale(70)
                 .translate([cfg.w/2,cfg.h/2])
                 // .translate([350,h*0.6])
-                .scale(100);
+                // .scale(100);
+                .scale(cfg.w/7);
                 
     var path = d3.geoPath()
         .projection(projection);
 
-    var svg = d3.select("#choropleth")
+
+    var container = d3.select('#choropleth')
+        .append("svg")
+        .attr('id', 'choropleth-container')
+        // .attr("width", cfg.w+2*cfg.padding)
+        // .attr("height", cfg.h+2*cfg.padding);
+        .attr("width", cfg.w)
+        .attr("height", cfg.h);
+
+    // var svg;
+    // svg = d3.select("#choropleth-container")
+    //     .append("svg")
+    //     .attr("id", "choropleth-svg")
+    //     .attr("width", cfg.w)
+    //     .attr("height", cfg.h)
+    //     .attr("fill", "grey");
+    var svg = container
         .append("svg")
         .attr("id", "choropleth-svg")
+        .attr("transform", `translate(${cfg.padding}, ${cfg.padding})`)
         .attr("width", cfg.w)
-        .attr("height", cfg.h)
-        .attr("fill", "grey");
+        .attr("height", cfg.h);
 
-    var legend = svg.append("g")
+    var legend = container.append("g")
         .attr("class", "legend")
-        .attr("transform", "translate(" + (cfg.w/2) + "," + (cfg.h - 20) + ")");
+        .attr("transform", "translate(" + (cfg.w/2) + "," + (cfg.h - cfg.padding/9) + ")");
 
     // var tooltip = d3.select("#choropleth-tooltip")
-    var tooltip = d3.select("#choropleth")
-        .append("div")
-        .attr("id", "choropleth-tooltip")
-        .style("opacity", 0);
-
+    var tooltip; 
 
     const slider = document.getElementById('yearSlider');
     const year = slider.value;
@@ -84,9 +99,9 @@ function choropleth(){
                 } else {
                     return "#999";
                 }
-            })
+            });
 
-            svg.select("#title")
+            container.select("#title")
                 .text(`Life Expectancy at birth of World Countries in ${year}`);
 
         });
@@ -173,7 +188,7 @@ function choropleth(){
             tooltip.html(tooltipContent)
                 .style("left", (event.pageX ) + "px")
                 // .style("top", (event.pageY - cfg.h/4+100) + "px");
-                .style("top", (event.pageY - cfg.h*2+cfg.padding*2) + "px");
+                .style("top", (event.pageY - cfg.h*1.8) + "px");
 
             
             // tooltip.transition()
@@ -236,13 +251,13 @@ function choropleth(){
             // document.getElementById("choropleth").appendChild(svg.node());
     });
         //Title
-        svg.append("text")
+        container.append("text")
         .attr("id","title")
         .attr("x", cfg.w / 2)
         .attr("y", cfg.padding / 2)
         .style("opacity", 1)
         .style("text-anchor", "middle")
-        .style("font-size", "20px") // Set the font size here
+        .style("font-size", `${1.3*cfg.fontSize}rem`) // Set the font size here
         .text(`Life Expectancy at birth of World Countries in ${year}`);
         
         legend.selectAll("rect")
@@ -253,11 +268,11 @@ function choropleth(){
         }))
         .enter()
         .append("rect")
-        .attr("height", 18)
+        .attr("height", cfg.h/27)
         .attr("x", function(d, i) {
-            return i * 50;
+            return i * (cfg.w/13);
         })
-        .attr("width", 48)
+        .attr("width", (cfg.w/13-2))
         .attr("fill", function(d) {
             return d.color;
         });
@@ -265,17 +280,17 @@ function choropleth(){
         .data(['No data','0-20','21-40','41-60','61-80','81-100'])
         .enter()
         .append("text")
-        .attr("y", (cfg.h-470-32))
+        .attr("y", (-5))
+        // .attr("y", (0))
         .attr("x", function(d, i) {
-            return 25+50*i;
+            return cfg.w/26+(cfg.w/13)*i;
         })
         // .attr("dy", ".1em")
-        .style("font-size", ".7em")
+        .style("font-size", `${0.75*cfg.fontSize}rem`)
         .style("text-anchor", "middle")
         .text(function(d) {
             return d;
         });
-        document.getElementById("choropleth").appendChild(svg.node());
 }
 
 function sendCountryData(year, code, country) {
@@ -288,3 +303,5 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = slider;
 }
 window.onload = choropleth;
+
+
