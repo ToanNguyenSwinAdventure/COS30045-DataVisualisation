@@ -5,7 +5,7 @@ function choropleth(){
         // w: 700,
         // h: 500,
         // padding: 50
-        w: window.innerWidth/2.3,
+        w: window.innerWidth/2.5,
         h: window.innerHeight/1.4,
         padding: window.innerHeight/10
     };
@@ -30,7 +30,7 @@ function choropleth(){
     var svg = d3.select("#choropleth")
         .append("svg")
         .attr("id", "choropleth-svg")
-        .attr("width", cfg.w)
+        .attr("width", cfg.w  )
         .attr("height", cfg.h)
         .attr("fill", "grey");
 
@@ -152,11 +152,7 @@ function choropleth(){
             .append("div")
             .attr("class", "chart-tooltip");
             // .style("opacity", 0);
-            var tooltipContent = d.properties.name && d.properties.value ? 
-            `<div><strong>Country:</strong> ${d.properties.name}</div>
-            <div><strong>Life Expectancy:</strong> ${d.properties.value} years</div>` 
-            : 
-            `<div><strong>Country:</strong> ${d.properties.name}</div>`;
+            var tooltipContent = "Click to see life expectancy distribution for " + d.properties.name + ".";
             d3.selectAll(".Country")
                 .transition()
                 .duration(200)

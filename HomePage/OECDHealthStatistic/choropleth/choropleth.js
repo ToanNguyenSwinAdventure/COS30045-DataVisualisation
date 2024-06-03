@@ -2,12 +2,12 @@
 
 function choropleth(){
     var cfg = {
-        // w: 700,
-        // h: 500,
-        // padding: 50
-        w: window.innerWidth/2.3,
-        h: window.innerHeight/1.4,
-        padding: window.innerHeight/10
+        w: 700,
+        h: 500,
+        padding: 50
+        // w: window.innerWidth/2.3,
+        // h: window.innerHeight/1.4,
+        // padding: window.innerHeight
     };
     
     var color = d3.scaleQuantize()
@@ -177,11 +177,7 @@ function choropleth(){
             .append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-            var tooltipContent = d.properties.name && d.properties.value ? 
-            `<div><strong>Country:</strong> ${d.properties.name}</div>
-            <div><strong>Life Expectancy:</strong> ${d.properties.value} years</div>` 
-            : 
-            `<div><strong>Country:</strong> ${d.properties.name}</div>`;
+            var tooltipContent = "Click to see density for " + d.properties.name + ".";
             d3.selectAll(".Country")
                 .transition()
                 .duration(200)

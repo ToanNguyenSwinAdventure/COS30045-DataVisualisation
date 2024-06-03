@@ -1,22 +1,54 @@
-function density() {
-    const margin = { top: 30, right: 30, bottom: 40, left: 50 },
-        width = 500 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+const margin = { top: 70, right: 30, bottom: 40, left: 50 },
+width = 500 - margin.left - margin.right,
+height = 400 - margin.top - margin.bottom;
 
+function density() {
+
+    d3.select("#plot").remove();
+    d3.select("#density").remove();
+    createDensitySection();
     let lastClickedCountry = null;  // Store the last clicked country
 
-    const svg = d3.select("#density")
-        .html("")  // Clear any previous content
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+    var container = d3.select('#density')
+    .append("svg")
+    .attr('id', 'density-container')
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
 
-    d3.csv("../Processed_Data/Life_expectancy.csv").then(function (data) {
+    var svg = d3.select("#density-container")
+    .html("")  // Clear any previous content
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    d3.csv("../HomePage/Processed_Data/Life_expectancy.csv").then(function (data) {
+        //updateChart(data, lastClickedCountry, 2021);
+        
+        // Listen for the custom event 'countryClick'
+        document.addEventListener('countryClick', function(event) {
+            const { year, code, country } = event.detail;
+            lastClickedCountry = code;  // Update the last clicked country
+            document.getElementById('country').textContent = 'for ' + country;
+            document.getElementById('leYear').textContent = 'in ' + year;
+            updateChart(data, code, year);
+        });
+
+        // Update chart when year slider changes
+        var slider = document.getElementById('yearSlider');
+        slider.addEventListener('input', function(event) {
+            let year = slider.value;
+            document.getElementById('leYear').textContent = year;
+            const countryName = 'for' + lastClickedCountry ? document.querySelector(`#country-list [data-code="${lastClickedCountry}"]`).textContent : "All Countries";
+            document.getElementById('country').textContent = countryName;
+            updateChart(data, lastClickedCountry, year);
+        });
+        
+  
         var x = d3.scaleLinear()
-            .domain([0, 100])
-            .range([0, width]);
+        .domain([0, 100])
+        .range([0, width]);
 
         svg.append("g")
             .attr("transform", `translate(0, ${height})`)
@@ -25,11 +57,12 @@ function density() {
         var y = d3.scaleLinear()
             .range([height, 0])
             .domain([0, 0.1]);
-            
+        
         svg.append("g")
             .call(d3.axisLeft(y));
 
         function updateChart(data, country, year) {
+            console.log("Click")
             const filteredData = data.filter(d => d.Year == year && (!country || d.Country_code == country)).map(d => +d.Value);
             
             svg.selectAll(".density-path").remove(); // Remove existing paths
@@ -68,7 +101,7 @@ function density() {
             addStatistics(svg, stats, x);
         }
 
-        updateChart(data, null, 2021);  // Initial chart with default year
+        updateChart(data, lastClickedCountry, 2021);  // Initial chart with default year
 
         function computeStatistics(values) {
             const mean = d3.mean(values);
@@ -95,7 +128,7 @@ function density() {
                 .style("fill", "red")
                 .text(`Mean: ${statistics.mean.toFixed(2)}`);
         }
-
+        
         function kernelDensityEstimator(kernel, X) {
             return function (V) {
                 return X.map(function (x) {
@@ -123,24 +156,23 @@ function density() {
             .attr("x", -margin.top - 80)
             .text("Density");
 
-        // Listen for the custom event 'countryClick'
-        document.addEventListener('countryClick', function(event) {
-            const { year, code, country } = event.detail;
-            lastClickedCountry = code;  // Update the last clicked country
-            document.getElementById('country').innerHTML = country;
-            updateChart(data, code, year);
-        });
 
-        // Update chart when year slider changes
-        var slider = document.getElementById('yearSlider');
-        slider.addEventListener('input', function(event) {
-            let year = slider.value;
-            document.getElementById('leYear').innerHTML = year;
-            document.getElementById('country').innerHTML = lastClickedCountry;
-            updateChart(data, lastClickedCountry, year);
-        });
 
     });
 }
-
+function createDensitySection(){
+    var densityChart = d3.select("#right-container")
+        .append("div")  
+        .attr("id", "density");
+    
+         // Append main title to the chart
+         densityChart.append("text")
+         .attr("x", (width + margin.left + margin.right) / 2)  // Center the text horizontally
+         .attr("y", -margin.top + 30)  // Position the text vertically
+         .style("opacity", 1)
+         .style("text-anchor", "middle")
+         .style("font-size", "20px")
+         .html('Life Expectancy Density <span id="country">for all countries</span> <span id="leYear">in 2021</span>');
+  
+}
 window.onload = density;
