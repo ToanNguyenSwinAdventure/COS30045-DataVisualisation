@@ -18,9 +18,8 @@ d3.csv("../HomePage/Processed_Data/Life_expectancy.csv").then(function(data) {
     $(document).ready(function() {
         $('#yearSlider').on('input', function() {
             $('#out').text($(this).val());
-            console.log("THIS IS VALUE " + $(this).val());
+            console.log("Year Changing to: " + $(this).val());
         });
-
         $('#slider_min').text(minYear);
         $('#slider_max').text(maxYear);
 
