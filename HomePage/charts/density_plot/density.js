@@ -1,31 +1,44 @@
-const margin = { top: 70, right: 30, bottom: 40, left: 50 },
-width = 500 - margin.left - margin.right,
-height = 400 - margin.top - margin.bottom;
+var  margin = {
+    top: window.innerHeight / 8,
+    right: window.innerWidth * 0.1,
+    bottom: window.innerHeight / 8,
+    left: window.innerWidth * 0.05
+};
+width = window.innerWidth / 3;  
+height = window.innerHeight / 4; 
+
+function updateDimensions() {
+    margin = {
+        top: window.innerHeight / 8,
+        right: window.innerWidth * 0.1,
+        bottom: window.innerHeight / 8,
+        left: window.innerWidth * 0.05
+    };
+    width = window.innerWidth / 3;  
+    height = window.innerHeight / 4; 
+}
 
 function density() {
-
     d3.select("#plot").remove();
     d3.select("#density").remove();
     createDensitySection();
     let lastClickedCountry = null;  // Store the last clicked country
 
     var container = d3.select('#density')
-    .append("svg")
-    .attr('id', 'density-container')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+        .append("svg")
+        .attr('id', 'density-container')
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
 
     var svg = d3.select("#density-container")
-    .html("")  // Clear any previous content
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+        .html("")  // Clear any previous content
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
     d3.csv("../HomePage/Processed_Data/Life_expectancy.csv").then(function (data) {
-        //updateChart(data, lastClickedCountry, 2021);
-        
         // Listen for the custom event 'countryClick'
         document.addEventListener('countryClick', function(event) {
             const { year, code, country } = event.detail;
@@ -42,11 +55,10 @@ function density() {
             document.getElementById('leYear').textContent = 'in ' + sliderYear;
             updateChart(data, lastClickedCountry, sliderYear);
         });
-        
-  
+
         var x = d3.scaleLinear()
-        .domain([0, 100])
-        .range([0, width]);
+            .domain([0, 100])
+            .range([0, width]);
 
         svg.append("g")
             .attr("transform", `translate(0, ${height})`)
@@ -55,14 +67,14 @@ function density() {
         var y = d3.scaleLinear()
             .range([height, 0])
             .domain([0, 0.1]);
-        
+
         svg.append("g")
             .call(d3.axisLeft(y));
 
         function updateChart(data, country, year) {
-            console.log("Click")
+            console.log("Click");
             const filteredData = data.filter(d => d.Year == year && (!country || d.Country_code == country)).map(d => +d.Value);
-            
+
             svg.selectAll(".density-path").remove(); // Remove existing paths
             svg.selectAll(".no-data-text").remove(); // Remove any "No data available" text
             svg.selectAll(".statistics").remove(); // Remove old statistics elements
@@ -84,7 +96,7 @@ function density() {
             svg.append("path")
                 .datum(density)
                 .attr("class", "density-path")
-                .attr("fill", "#69b3a2")
+                .attr("fill", "#6baed6")
                 .attr("opacity", ".8")
                 .attr("stroke", "#000")
                 .attr("stroke-width", 1)
@@ -124,9 +136,10 @@ function density() {
                 .attr("y", y(0.1) - 10)
                 .attr("text-anchor", "middle")
                 .style("fill", "red")
+                .attr("font-size", "14px")
                 .text(`Mean: ${statistics.mean.toFixed(2)}`);
         }
-        
+
         function kernelDensityEstimator(kernel, X) {
             return function (V) {
                 return X.map(function (x) {
@@ -145,32 +158,38 @@ function density() {
             .attr("x", width / 2)
             .attr("y", height + 30)
             .style("text-anchor", "middle")
+            .attr("font-size", "14px")
             .text("Life Expectancy (Years)");
 
         svg.append("text")
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 15)
-            .attr("x", -margin.top - 80)
+            .attr("y", -margin.left + 30)
+            .attr("x", -margin.top - 10)
+            .attr("font-size", "14px")
             .text("Density");
-
-
-
     });
 }
-function createDensitySection(){
+
+function createDensitySection() {
     var densityChart = d3.select("#right-container")
-        .append("div")  
+        .append("div")
         .attr("id", "density");
-    
-         // Append main title to the chart
-         densityChart.append("text")
-         .attr("x", (width + margin.left + margin.right) / 2)  // Center the text horizontally
-         .attr("y", -margin.top + 30)  // Position the text vertically
-         .style("opacity", 1)
-         .style("text-anchor", "middle")
-         .style("font-size", "20px")
-         .html('Life Expectancy Density <span id="country">for all countries</span> <span id="leYear">in 2021</span>');
-  
+
+    // Append main title to the chart
+    densityChart.append("text")
+        .attr("x", (width + margin.left + margin.right) / 2)  // Center the text horizontally
+        .attr("y", -margin.top + 30)  // Position the text vertically
+        .style("opacity", 1)
+        .style("text-anchor", "middle")
+        .style("font-size", "20px")
+        .html('Life Expectancy Density <span id="country">for all countries</span> <span id="leYear">in 2021</span>');
 }
-window.onload = density;
+
+function initializeDensityChart() {
+    updateDimensions();
+    density();
+}
+
+window.onload = initializeDensityChart;
+window.onresize = initializeDensityChart;
