@@ -167,11 +167,7 @@ function choropleth(){
             .append("div")
             .attr("class", "chart-tooltip");
             // .style("opacity", 0);
-            var tooltipContent = d.properties.name && d.properties.value ? 
-            `<div><strong>Country:</strong> ${d.properties.name}</div>
-            <div><strong>Life Expectancy:</strong> ${d.properties.value} years</div>` 
-            : 
-            `<div><strong>Country:</strong> ${d.properties.name}</div>`;
+            var tooltipContent = "Click to see life expectancy distribution for " + d.properties.name + ".";
             d3.selectAll(".Country")
                 .transition()
                 .duration(200)
