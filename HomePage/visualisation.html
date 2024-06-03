@@ -85,15 +85,21 @@
         <div id = "choropleth"></div>    <!-- Choropleth-->
         <div id = "right-container">    <!-- Right screen container-->
             <button id="chart-btn" onclick="scatter_plot()">Scatter Plot</button>
-            <button id ="chart-btn" onclick="density()">Distribution</button>
+            <button id ="chart-btn" onclick="initializeDensityChart()">Distribution</button>
             
         </div>  <!--ID: Right container-->
 
         </div>
 
         <div class = "slider">
-            <span id='out'></span><br>
-            <input id="yearSlider" type="range" class="test" min="0" max="2021" value = "9999" />
+            <!-- <span id='out'></span><br>
+            <input id="yearSlider" type="range" class="test" min="0" max="2021" value = "9999" /> -->
+
+            <span id='slider_min'>Min</span>
+            <input id="yearSlider" type="range" class="test" min="0" max="2021" value="9999" />
+            <span id='slider_max'>Max</span>
+            <br>
+            <!-- <span id='out'>Value: </span> -->
         </div>
 
                     

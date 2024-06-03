@@ -6,6 +6,7 @@ var  margin = {
 };
 width = window.innerWidth / 3;  
 height = window.innerHeight / 4; 
+fontSize = width/512;
 
 function updateDimensions() {
     margin = {
@@ -15,7 +16,8 @@ function updateDimensions() {
         left: window.innerWidth * 0.05
     };
     width = window.innerWidth / 3;  
-    height = window.innerHeight / 4; 
+    height = window.innerWidth*0.1; 
+    fontSize = width/512;
 }
 
 function density() {
@@ -72,7 +74,6 @@ function density() {
             .call(d3.axisLeft(y));
 
         function updateChart(data, country, year) {
-            console.log("Click");
             const filteredData = data.filter(d => d.Year == year && (!country || d.Country_code == country)).map(d => +d.Value);
 
             svg.selectAll(".density-path").remove(); // Remove existing paths
@@ -106,7 +107,6 @@ function density() {
                     .x(d => x(d[0]))
                     .y(d => y(d[1]))
                 );
-
             const stats = computeStatistics(filteredData);
             addStatistics(svg, stats, x);
         }
@@ -136,7 +136,7 @@ function density() {
                 .attr("y", y(0.1) - 10)
                 .attr("text-anchor", "middle")
                 .style("fill", "red")
-                .attr("font-size", "14px")
+                .attr("font-size", `${fontSize*0.8}rem`)
                 .text(`Mean: ${statistics.mean.toFixed(2)}`);
         }
 
@@ -156,34 +156,39 @@ function density() {
 
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", height + 30)
+            .attr("y", height *1.3)
             .style("text-anchor", "middle")
-            .attr("font-size", "14px")
+            .attr("font-size", `${fontSize}rem`)
             .text("Life Expectancy (Years)");
 
         svg.append("text")
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .attr("y", -margin.left + 30)
-            .attr("x", -margin.top - 10)
-            .attr("font-size", "14px")
+            // .attr("y", -margin.left + 30)
+            // .attr("x", -margin.top - 10)
+            .attr("x", -(height*0.3))
+            .attr("y", 0 - width*0.1)
+            .attr("font-size", `${fontSize}rem`)
             .text("Density");
     });
+
+    
 }
 
 function createDensitySection() {
     var densityChart = d3.select("#right-container")
         .append("div")
         .attr("id", "density");
-
     // Append main title to the chart
+    
     densityChart.append("text")
-        .attr("x", (width + margin.left + margin.right) / 2)  // Center the text horizontally
+        // .attr("x", (width + margin.left + margin.right) / 2)  // Center the text horizontally
+        .attr("x", (300) )  // Center the text horizontally
         .attr("y", -margin.top + 30)  // Position the text vertically
         .style("opacity", 1)
         .style("text-anchor", "middle")
-        .style("font-size", "20px")
-        .html('Life Expectancy Density <span id="country">for all countries</span> <span id="leYear">in 2021</span>');
+        .style("font-size", `${fontSize*1.2}rem`)
+        .html(`<div>Life Expectancy Density <span id="country">for all countries</span> <span id="leYear">in 2021</span></div>`);
 }
 
 function initializeDensityChart() {
@@ -191,5 +196,5 @@ function initializeDensityChart() {
     density();
 }
 
-window.onload = initializeDensityChart;
-window.onresize = initializeDensityChart;
+// window.onload = initializeDensityChart;
+// window.onresize = initializeDensityChart;

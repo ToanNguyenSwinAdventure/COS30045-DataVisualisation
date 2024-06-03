@@ -17,7 +17,7 @@ function scatter_plot(){
         border: 1,
         fontSize: window.innerWidth*0.4/600 //rem
     };
-    console.log(`Width: ${cfg.w}; Height: ${cfg.h}`);
+    // console.log(`Width: ${cfg.w}; Height: ${cfg.h}`);
     var continentColor = d3.scaleOrdinal()
     .domain(["Asia", "Europe", "Americas", "Africa", "Oceania"])
     .range(d3.schemeSet1);
@@ -145,11 +145,9 @@ function scatter_plot(){
     }
 
     function updatePlot(data,chart_year) {
-        // console.log(chart_year);
         var axis_option = handleAxisChange();
         xAxis_option = axis_option[0];
         yAxis_option = axis_option[1];
-        console.log(xAxis_option, yAxis_option);
         var xAxisData = get_data_by_axis(data,xAxis_option);
         var yAxisData = get_data_by_axis(data,yAxis_option);
 
@@ -337,21 +335,17 @@ function scatter_plot(){
                 var axis_option = handleAxisChange();
                 xAxis_option = axis_option[0];
                 yAxis_option = axis_option[1];
-                // console.log(xAxis_option ,yAxis_option);
                 var xAxisData = get_data_by_axis(data,xAxis_option);
                 var yAxisData = get_data_by_axis(data,yAxis_option);
             }
             else{
                 xAxis_option = x_update;
                 yAxis_option = y_update;
-                // console.log(xAxis_option ,yAxis_option);
                 var xAxisData = get_data_by_axis(data,xAxis_option);
                 var yAxisData = get_data_by_axis(data,yAxis_option);
             }
             var mergedData = filter_null_data(data, [xAxis_option, yAxis_option]);
-            // console.log(xAxisData ,yAxisData);
-            // console.log(xAxisData.filter(d => d[xAxis_option] !== null));
-            // console.log(yAxisData.filter(d => d[yAxis_option] !== null));
+
 
             population_scale = d3.scaleSqrt()
                 .domain([d3.max(mergedData, d => d.population), d3.min(mergedData, d => d.population)])
@@ -417,7 +411,7 @@ function scatter_plot(){
             svg.append("text")
                 .attr("transform", "rotate(-90)")
                 .attr("x", -cfg.h / 2)
-                .attr("y", cfg.padding - 30)
+                .attr("y", cfg.padding*0.22)
                 .style("text-anchor", "middle")
                 .style("font-size", `${1.1*cfg.fontSize}rem`)
                 .text(axis_name(yAxis_option));
@@ -482,7 +476,7 @@ function scatter_plot(){
             .enter()
             .append("line")
                 .attr('x1', function(d){ return cfg.w  + population_scale(d) } )
-                .attr('x2', function(d,i) { return cfg.w + cfg.padding*0.7 + cfg.padding*0.3*i})
+                .attr('x2', function(d,i) { return cfg.w + cfg.padding*0.5 + cfg.padding*0.3*i})
                 .attr('y1', function(d){ return cfg.h *2/3  - population_scale(d) } )
                 .attr('y2', function(d){ return cfg.h *2/3 - population_scale(d) } )
                 .attr('stroke', 'black')
@@ -494,17 +488,17 @@ function scatter_plot(){
                 .data(valuesToShow)
                 .enter()
                 .append("text")
-                .attr('x', function(d, i){return cfg.w + cfg.padding*0.7 + cfg.padding*0.3*i} )
+                .attr('x', function(d, i){return cfg.w + cfg.padding*0.5 + cfg.padding*0.3*i} )
                 .attr('y', function(d){ return cfg.h*2/3- population_scale(d)} )
                 .text( function(d){ return d/1000000 } )
-                .style("font-size", `${cfg.fontSize}rem`)
+                .style("font-size", `${0.7*cfg.fontSize}rem`)
                 .attr('alignment-baseline', 'middle');
     
               // Legend title
             container.append("text")
                 .attr('x', cfg.w+cfg.padding/2)
                 .attr("y", cfg.h * 0.75)
-                .style("font-size", `${cfg.fontSize}rem`)
+                .style("font-size", `${0.9*cfg.fontSize}rem`)
                 .text("Population (Millions)")
                 .attr("text-anchor", "middle");
     
@@ -561,7 +555,6 @@ function scatter_plot(){
         if (update_y == null){
             update_y = y_option.value;
         }
-        console.log("X and Y: "+update_x+" || "+update_y);
         d3.select("#plot-svg").remove();
         draw_chart(x_update = update_x, y_update = update_y);
     }

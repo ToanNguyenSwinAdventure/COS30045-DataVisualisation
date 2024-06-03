@@ -26,11 +26,14 @@
 #right-container{
     width: 50 wh;
     height: 50 vh;
-
 }
+
 #choropleth,
 #plot, 
 #density {
+/* #choropleth,
+#plot-container, 
+#density-container { */
     border: 1px solid #ccc;
     margin-bottom: 20px; /* Add some margin between the charts */
     padding: 10px; /* Add some padding inside the border */
@@ -98,6 +101,8 @@ circle {
 .slider {
     width: 40%;
     margin: 20px auto;
+    display: flex;
+    align-items: center;
 }
 
 #yearSlider {

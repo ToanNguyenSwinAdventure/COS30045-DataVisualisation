@@ -75,10 +75,8 @@ function choropleth(){
             Promise.all([data, json]).then(function(values) {
                 var data = values[0];
                 var json = values[1];
-                // console.log(json);
                 for (var i = 0; i <data.length; i++) {
                     var dataState = data[i];
-                    // console.log(dataState)
                     for (var j = 0; j < json.features.length; j++) {
                         var jsonState = json.features[j];
                         if (jsonState.id === dataState.Country_code) {
@@ -167,7 +165,10 @@ function choropleth(){
             .append("div")
             .attr("class", "chart-tooltip");
             // .style("opacity", 0);
-            var tooltipContent = "Click to see life expectancy distribution for " + d.properties.name + ".";
+            var tooltipContent = `
+            <div><strong>Country:</strong> ${d.properties.name}</div>
+            <div><strong>Life Expectancy:</strong> ${d.properties.value} years</div><br>
+            Click to see Life Expectancy distribution for ${d.properties.name}.`;
             d3.selectAll(".Country")
                 .transition()
                 .duration(200)

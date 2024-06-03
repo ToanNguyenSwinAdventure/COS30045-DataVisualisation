@@ -20,7 +20,10 @@ d3.csv("../HomePage/Processed_Data/Life_expectancy.csv").then(function(data) {
             $('#out').text($(this).val());
             console.log("THIS IS VALUE " + $(this).val());
         });
-    
+
+        $('#slider_min').text(minYear);
+        $('#slider_max').text(maxYear);
+
         $('#yearSlider').attr('min', minYear);
         $('#yearSlider').attr('max', maxYear);
         $('#yearSlider').attr('value', maxYear);
