@@ -8,9 +8,12 @@ function choropleth(){
         w: window.innerWidth*0.43,
         // h: window.innerHeight/1.4,
         h: (window.innerWidth*0.43)*0.7,
+        h2: (window.innerHeight*0.72),
+        win_h: window.screen.height,
         padding: window.innerWidth/13,
         fontSize: window.innerWidth*0.43/700
     };
+    // console.log(window.innerHeight*0.72);
     // console.log(`Width: ${cfg.w}; Height: ${cfg.h}`);
     var color = d3.scaleQuantize()
                 .range(['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'])
@@ -185,7 +188,9 @@ function choropleth(){
             tooltip.html(tooltipContent)
                 .style("left", (event.pageX ) + "px")
                 // .style("top", (event.pageY - cfg.h/4+100) + "px");
-                .style("top", (event.pageY - cfg.h*1.8) + "px");
+                // .style("top", (event.pageY - cfg.h*1.8) + "px");
+                .style("top", (`${event.pageY- cfg.h2*1.9}px`));
+            // console.log(window.screen.height);
 
             
             // tooltip.transition()
@@ -203,7 +208,6 @@ function choropleth(){
             .attr("d", path)
             .style("fill", function(d){
                 var value = d.properties.value;
-                // console.log("COLOR VALUE"+ color(value)+"\n VALUE "+value);
                 if (value) {
                     return color(value);
                 } else {

@@ -12,6 +12,7 @@ function scatter_plot(){
         // padding: 70,
         w: window.innerWidth*0.4,
         h: window.innerWidth*0.2,
+        h2: (window.innerHeight*0.86),
         padding: window.innerWidth*0.04,
         radius: window.innerWidth*0.4*0.0066666,
         border: 1,
@@ -255,20 +256,29 @@ function scatter_plot(){
         return `${title_x} - ${title_y} in ${year}`;
     }
 
+
+    function replaceNull(data){
+        if (data == null) 
+            return `No Reported Data`;
+        else {
+            return data;
+        }
+    }
     function handleMouseOver(event, d) {
+
         tooltip = d3.select("#plot")
             .append("div")
             .attr("class", "chart-tooltip");
         var tooltipContent = d.lifeExpectancy && d.gdp_capita ? 
             
-            `<div><strong>Country:</strong> ${d.country}
-            <strong>Life Expectancy:</strong> ${d.lifeExpectancy} years<br>
-            <strong>GDP/Capita:</strong> ${d.gdp_capita} $US<br>
-            <strong>GDP:</strong> ${d.gdp} Billions $US<br>
-            <strong>Population:</strong> ${d.population}<br> 
-            <strong>Health Expenditure GDP shared:</strong> ${d.health_expenditure_gdp_share} <br> 
-            <strong>Health Expenditure:</strong> ${d.health_expenditure} Country's currency<br> 
-            <strong>Health Expenditure per Capita:</strong> ${d.health_expenditure_capita} $US<br> </div>
+            `<div><strong>Country:</strong> ${replaceNull(d.country)}<br>
+            <strong>Life Expectancy:</strong> ${replaceNull(d.lifeExpectancy)} years<br>
+            <strong>GDP/Capita:</strong> ${replaceNull(d.gdp_capita)} $US<br>
+            <strong>GDP:</strong> ${replaceNull(d.gdp)} Billions $US<br>
+            <strong>Population:</strong> ${replaceNull(d.population)} people<br> 
+            <strong>Health Expenditure GDP shared:</strong> ${replaceNull(d.health_expenditure_gdp_share)}% <br> 
+            <strong>Health Expenditure:</strong> ${replaceNull(d.health_expenditure)} $US<br> 
+            <strong>Health Expenditure per Capita:</strong> ${replaceNull(d.health_expenditure_capita)} $US<br> </div>
 
 
             <div style="font-size:60%"><strong>GDP</strong> & <strong>GDP/capita</strong> are conducted using <strong>Purchasing Power Parity (PPPs)</strong> in $US</div></div>` : 
@@ -280,8 +290,9 @@ function scatter_plot(){
             .style("opacity", 1);
         tooltip.html(tooltipContent)
             .style("left", (event.pageX + cfg.padding/5) + "px")
-            .style("top", (event.pageY - cfg.h*3+cfg.padding/2) + "px");
-
+            // .style("top", (event.pageY - cfg.h*3+cfg.padding/2) + "px");
+            .style("top", (`${event.pageY- cfg.h2*1.6}px`));
+            console.log(cfg.h2);
         d3.select(this)
             // .attr("r", cfg.radius + 2);
             .attr("r", function(d) { return population_scale(d.population)+2});
