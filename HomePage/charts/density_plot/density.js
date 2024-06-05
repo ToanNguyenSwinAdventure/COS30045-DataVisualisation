@@ -74,7 +74,7 @@ function density() {
             .call(d3.axisLeft(y));
 
         function updateChart(data, country, year) {
-            const filteredData = data.filter(d => d.Year == year && (!country || d.Country_code == country)).map(d => +d.Value);
+            const filteredData = data.filter(d => d.Year == year && (!country || d.Country_code == country)).map(d => +d.Life_expectancy);
 
             svg.selectAll(".density-path").remove(); // Remove existing paths
             svg.selectAll(".no-data-text").remove(); // Remove any "No data available" text
