@@ -65,7 +65,7 @@ function choropleth(){
 
     const slider = document.getElementById('yearSlider');
     const year = slider.value;
-    slider.addEventListener('click', function(event) {
+    slider.addEventListener('input', function(event) {
 
         let year = slider.value;
         get_data_from_year(year).then(function(data) {
@@ -83,7 +83,7 @@ function choropleth(){
                     for (var j = 0; j < json.features.length; j++) {
                         var jsonState = json.features[j];
                         if (jsonState.id === dataState.Country_code) {
-                            jsonState.properties.value = +dataState.Value;
+                            jsonState.properties.value = +dataState.Life_expectancy;
                             break;
                         }
                     }
@@ -157,7 +157,7 @@ function choropleth(){
             for (var j = 0; j < json.features.length; j++) {
                 var jsonState = json.features[j];
                 if (jsonState.id === dataState.Country_code) {
-                    jsonState.properties.value = +dataState.Value;
+                    jsonState.properties.value = +dataState.Life_expectancy;
                     break;
                 }
             }

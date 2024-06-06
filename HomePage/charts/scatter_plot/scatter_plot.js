@@ -104,7 +104,7 @@ function scatter_plot(){
             d3.csv("../HomePage/Processed_Data/GDP_processed.csv"),
             d3.csv("../HomePage/Processed_Data/country_continent.csv"),
             d3.csv("../HomePage/Processed_Data/Population.csv"),
-            d3.csv("../HomePage/Processed_Data/Health_expenditure.csv"),
+            d3.csv("../HomePage/Processed_Data/Health_expenditure.csv")
 
         ]).then(function(data){
             var lifeExpectancyData = data[0];
@@ -125,7 +125,7 @@ function scatter_plot(){
                 var healthExpenditureMatch = healthExpenditureData_in_year.find(p => p.Country_code === d.Country_code);
                 return {
                     country: d.Country,
-                    lifeExpectancy: +d.Value,
+                    lifeExpectancy: +d.Life_expectancy,
                     gdp: gdpMatch ? +gdpMatch.GDP : null,
                     gdp_capita: gdpMatch ? +gdpMatch.GDP_capita : null,
                     continent: continentMatch ? continentMatch.Continent : null,
@@ -292,7 +292,6 @@ function scatter_plot(){
             .style("left", (event.pageX + cfg.padding/5) + "px")
             // .style("top", (event.pageY - cfg.h*3+cfg.padding/2) + "px");
             .style("top", (`${event.pageY- cfg.h2*1.6}px`));
-            console.log(cfg.h2);
         d3.select(this)
             // .attr("r", cfg.radius + 2);
             .attr("r", function(d) { return population_scale(d.population)+2});
@@ -301,8 +300,7 @@ function scatter_plot(){
     function handleMouseOut() {
         tooltip.transition()
             .duration(500)
-            // .style("opacity", 0);
-            .style("opacity", 10);
+            .style("opacity", 0);
 
         d3.select(this)
             // .attr("r", cfg.radius);
@@ -340,6 +338,7 @@ function scatter_plot(){
             return keys.every(key => row[key] !== null);
         });
     }
+
     function draw_chart(x_update, y_update, chart_year = "2021"){
         return get_data_from_year(chart_year).then(function(data){
             if (x_update == null && y_update == null){
@@ -356,8 +355,7 @@ function scatter_plot(){
                 var yAxisData = get_data_by_axis(data,yAxis_option);
             }
             var mergedData = filter_null_data(data, [xAxis_option, yAxis_option]);
-
-
+            console.log(xAxisData);
             population_scale = d3.scaleSqrt()
                 .domain([d3.max(mergedData, d => d.population), d3.min(mergedData, d => d.population)])
                 .range([ cfg.radius, cfg.radius*1.01]);
@@ -458,14 +456,17 @@ function scatter_plot(){
     
             var highlight = function(event,d){
                 // reduce opacity of all groups
-                d3.selectAll(".bubbles").style("opacity", .05)
+                d3.selectAll(".bubbles")
+                .style("opacity", .05)
                 // expect the one that is hovered
-                d3.selectAll("."+d).style("opacity", 1)
+                d3.selectAll("."+d)
+                .style("opacity", 1)
                 }
             
                 // And when it is not hovered anymore
             var noHighlight = function(event,d){
-                d3.selectAll(".bubbles").style("opacity", 1)
+                d3.selectAll(".bubbles")
+                .style("opacity", 1)
                 }
     
             var valuesToShow = [10000000, 100000000, 1000000000];
@@ -598,6 +599,10 @@ function createPlotAxisOption(){
         .attr("value", "gdp")
         .text("GDP");
 
+    // xAxisSelect.append("option")
+    //     .attr("value", "health_expenditure_capita")
+    //     .text("Health Expenditure/Capita");
+
     // Adding some spacing between the X Axis and Y Axis options
     plotOptionDiv.append("span")
         .html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
@@ -622,6 +627,9 @@ function createPlotAxisOption(){
     yAxisSelect.append("option")
         .attr("value", "gdp")
         .text("GDP");
+    // yAxisSelect.append("option")
+    //     .attr("value", "health_expenditure_capita")
+    //     .text("Health Expenditure/Capita");
 }
 
 
