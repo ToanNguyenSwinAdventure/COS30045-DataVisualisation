@@ -8,6 +8,7 @@ width = window.innerWidth / 3;
 height = window.innerHeight / 4; 
 fontSize = width/512;
 
+//make the screen scalable
 function updateDimensions() {
     margin = {
         top: window.innerHeight / 8,
@@ -113,12 +114,14 @@ function density() {
 
         updateChart(data, lastClickedCountry, 2021);  // Initial chart with default year
 
+        //calculate mean values
         function computeStatistics(values) {
             const mean = d3.mean(values);
             const stddev = d3.deviation(values);
             return { mean, stddev };
         }
 
+        //draw a line for mean value
         function addStatistics(svg, statistics, x) {
             svg.append("line")
                 .attr("class", "statistics")
