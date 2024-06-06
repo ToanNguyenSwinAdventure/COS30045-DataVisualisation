@@ -65,7 +65,7 @@ function choropleth(){
 
     const slider = document.getElementById('yearSlider');
     const year = slider.value;
-    slider.addEventListener('click', function(event) {
+    slider.addEventListener('input', function(event) {
 
         let year = slider.value;
         get_data_from_year(year).then(function(data) {

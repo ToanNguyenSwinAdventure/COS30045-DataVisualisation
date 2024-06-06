@@ -164,6 +164,8 @@ function density() {
         svg.append("text")
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
+            // .attr("y", -margin.left + 30)
+            // .attr("x", -margin.top - 10)
             .attr("x", -(height*0.3))
             .attr("y", 0 - width*0.1)
             .attr("font-size", `${fontSize}rem`)
@@ -180,6 +182,7 @@ function createDensitySection() {
     // Append main title to the chart
     
     densityChart.append("text")
+        // .attr("x", (width + margin.left + margin.right) / 2)  // Center the text horizontally
         .attr("x", (300) )  // Center the text horizontally
         .attr("y", -margin.top + 30)  // Position the text vertically
         .style("opacity", 1)
