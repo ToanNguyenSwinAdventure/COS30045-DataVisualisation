@@ -125,7 +125,7 @@ function scatter_plot(){
                 var healthExpenditureMatch = healthExpenditureData_in_year.find(p => p.Country_code === d.Country_code);
                 return {
                     country: d.Country,
-                    lifeExpectancy: +d.Value,
+                    lifeExpectancy: +d.Life_expectancy,
                     gdp: gdpMatch ? +gdpMatch.GDP : null,
                     gdp_capita: gdpMatch ? +gdpMatch.GDP_capita : null,
                     continent: continentMatch ? continentMatch.Continent : null,
@@ -301,8 +301,7 @@ function scatter_plot(){
     function handleMouseOut() {
         tooltip.transition()
             .duration(500)
-            // .style("opacity", 0);
-            .style("opacity", 10);
+            .style("opacity", 0);
 
         d3.select(this)
             // .attr("r", cfg.radius);
@@ -458,14 +457,17 @@ function scatter_plot(){
     
             var highlight = function(event,d){
                 // reduce opacity of all groups
-                d3.selectAll(".bubbles").style("opacity", .05)
+                d3.selectAll(".bubbles")
+                .style("opacity", .05)
                 // expect the one that is hovered
-                d3.selectAll("."+d).style("opacity", 1)
+                d3.selectAll("."+d)
+                .style("opacity", 1)
                 }
             
                 // And when it is not hovered anymore
             var noHighlight = function(event,d){
-                d3.selectAll(".bubbles").style("opacity", 1)
+                d3.selectAll(".bubbles")
+                .style("opacity", 1)
                 }
     
             var valuesToShow = [10000000, 100000000, 1000000000];
