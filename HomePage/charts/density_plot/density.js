@@ -149,8 +149,8 @@ function density() {
         }
 
         function kernelEpanechnikov(k) {
-            return function (v) {
-                return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+            return function (u) {
+                return Math.abs(u /= k) <= 1 ? 0.75 * (1 - u * u) / k : 0;
             };
         }
 
